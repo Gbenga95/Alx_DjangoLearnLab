@@ -1,8 +1,13 @@
-# Create a Book instance
+# Create a Book Instance Using Django Shell
+
 
 from bookshelf.models import Book
-book = Book(title="1984", author="George Orwell", publication_year=1949)
-book.save()
+book = Book.objects.create(title="1984", author="George Orwell", publication_year=1949)
+book
 
-# Output:
-# <Book: 1984> (after adding __str__ method in the model)
+# Expected Output:
+plaintext
+<Book: 1984>
+
+
+The book instance was successfully created.
