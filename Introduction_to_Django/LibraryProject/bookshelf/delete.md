@@ -1,10 +1,11 @@
-# Delete the Book instance
 
-book = Book.objects.get(id=1)
+from bookshelf.models import Book
+book = Book.objects.get(title="Nineteen Eighty-Four")
 book.delete()
 
-# Confirm deletion
-Book.objects.all()
+# Expected Output:
+plaintext
+(1, {'bookshelf.Book': 1})
 
-# Output:
-# <QuerySet []>  (No books found)
+
+The book instance has been successfully deleted.
