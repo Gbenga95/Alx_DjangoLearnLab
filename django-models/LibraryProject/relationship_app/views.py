@@ -1,15 +1,17 @@
 from django.shortcuts import render
+from .models import Book
 from django.contrib.auth import login
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required 
+from .forms import BookForm  # Make sure you have a BookForm
 
 
 
@@ -89,3 +91,32 @@ def admin_view(request):
 
 
 
+
+
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
+    else:
+        form = BookForm()
+    return render(request, 'relationship_app/book_form.html', {'form': form})
+
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    form = BookForm(request.POST or None, instance=book)
+    if form.is_valid():
+        form.save()
+        return redirect('book_list')
+    return render(request, 'relationship_app/book_form.html', {'form': form})
+
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('book_list')
+    return render(request, 'relationship_app/book_confirm_delete.html', {'book': book})
