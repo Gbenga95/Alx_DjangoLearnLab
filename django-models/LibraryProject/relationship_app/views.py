@@ -11,7 +11,7 @@ from django.views import View
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required 
-from .forms import BookForm  # Make sure you have a BookForm
+from .forms import BookForm  
 
 
 

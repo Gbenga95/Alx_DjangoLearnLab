@@ -21,7 +21,6 @@ class Book(models.Model):
             ("can_delete_book", "Can delete book"),
         ]
 
-
 class Library(models.Model):
     name = models.CharField(max_length=100)
     books = models.ManyToManyField(Book)
