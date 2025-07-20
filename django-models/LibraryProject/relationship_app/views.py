@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import login
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 from .models import Library, Book
@@ -64,12 +65,14 @@ def admin_view(request):
     return render(request, 'admin_view.html')
 
 #librarian_view
-def is_librarian(user):
-    return hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
 
-@user_passes_test(is_librarian)
-def librarian_view(request):
-    return render(request, 'librarian_view.html')
+
+class LibrarianView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+    template_name = 'relationship_app/librarian_view.html'
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Librarians').exists()
+
 
 #member_view
 def is_member(user):
