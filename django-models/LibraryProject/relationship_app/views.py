@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import DetailView
-from .models import Library  
+from django.views.generic import DetailView, ListView
+from .models import Library, Book
 
 class LibraryDetailView(DetailView):
     model = Library
@@ -11,3 +11,12 @@ class LibraryDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['books'] = self.object.books.all()
         return context
+
+
+class BookListView(ListView):
+    model = Book
+    template_name = "relationship_app/list_books.html"
+    context_object_name = "books"
+
+    def get_queryset(self):
+        return Book.objects.all()
