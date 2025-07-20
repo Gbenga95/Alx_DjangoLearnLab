@@ -9,6 +9,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required, user_passes_test
+
 
 
 
@@ -57,14 +59,6 @@ class CustomLogoutView(LogoutView):
 
 
 
-#admin_view
-def is_admin(user):
-    return hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
-
-@user_passes_test(is_admin)
-def admin_view(request):
-    return render(request, 'admin_view.html')
-
 #librarian_view
 
 
@@ -75,12 +69,23 @@ class LibrarianView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         return self.request.user.groups.filter(name='Librarians').exists()
 
 
-#member_view
-def is_member(user):
-    return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
 
+
+def is_member(user):
+    return user.groups.filter(name='Members').exists()
+
+def is_admin(user):
+    return user.groups.filter(name='Admins').exists()
+
+@login_required
 @user_passes_test(is_member)
 def member_view(request):
-    return render(request, 'member_view.html')
+    return render(request, 'relationship_app/member_view.html')
+
+@login_required
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
 
 

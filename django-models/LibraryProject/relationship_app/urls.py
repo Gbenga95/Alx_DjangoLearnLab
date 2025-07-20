@@ -18,7 +18,6 @@ urlpatterns = [
     path('librarian-area/', librarian_view.librarian_view, name='librarian_view'),
     path('member-area/', member_view.member_view, name='member_view'),
     path('librarian/', LibrarianView.as_view(), name='librarian_view'),
+    path('member/', member_view, name='member_view'),
+    path('admin/', admin_view, name='admin_view'),
 ]
-
-
-
