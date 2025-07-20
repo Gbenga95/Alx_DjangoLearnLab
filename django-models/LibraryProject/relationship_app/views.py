@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
+
 from .models import Library, Book
 
 class LibraryDetailView(DetailView):
@@ -81,3 +82,5 @@ def is_member(user):
 @user_passes_test(is_member)
 def member_view(request):
     return render(request, 'member_view.html')
+
+
