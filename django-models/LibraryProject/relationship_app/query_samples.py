@@ -21,3 +21,11 @@ def books_by_author(author_name):
         return Book.objects.filter(author=author)  
     except Author.DoesNotExist:
         return f"No author found with name: {author_name}"
+    
+
+def get_librarian_for_library(library_name):
+    try:
+        library = Library.objects.get(name=library_name)
+        return Librarian.objects.get(library=library)
+    except (Library.DoesNotExist, Librarian.DoesNotExist):
+        return f"No librarian found for library: {library_name}"
