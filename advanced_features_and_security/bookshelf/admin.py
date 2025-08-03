@@ -23,3 +23,10 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = UserAdmin.add_fieldsets + (
         (_('Additional Info'), {'fields': ('date_of_birth', 'profile_photo')}),
     )
+# bookshelf/admin.py
+
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import CustomUser
+
+admin.site.register(CustomUser, UserAdmin)
