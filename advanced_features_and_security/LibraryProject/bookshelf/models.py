@@ -46,3 +46,37 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
+
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=200)
+    published_date = models.DateField(null=True, blank=True)
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view book"),
+            ("can_create", "Can create book"),
+            ("can_edit", "Can edit book"),
+            ("can_delete", "Can delete book"),
+        ]
+
+    def __str__(self):
+        return self.title
+
+
+from django.db import models
+
+class Article(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+
+    class Meta:
+        permissions = [
+            ("can_edit", "Can edit article"),
+            ("can_create", "Can create article"),
+        ]
+
+    def __str__(self):
+        return self.title
