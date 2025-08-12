@@ -1,5 +1,5 @@
 from django import forms
-from models import Book
+from .models import Book
 
 # Example form for creating/updating a book
 class BookForm(forms.ModelForm):
