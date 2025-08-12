@@ -1,0 +1,21 @@
+<!-- LibraryProject/bookshelf/templates/bookshelf/book_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book List</title>
+</head>
+<body>
+    <h1>Book List</h1>
+
+    {% if books %}
+        <ul>
+        {% for book in books %}
+            <li>{{ book.title }} — {{ book.author }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books available.</p>
+    {% endif %}
+
+</body>
+</html>
