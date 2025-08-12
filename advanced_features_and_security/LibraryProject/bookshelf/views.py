@@ -57,3 +57,19 @@ def edit_article(request, article_id):
     # Logic for editing
     return render(request, "edit_article.html", {"article": article})
 
+from django import forms
+from .models import Book
+
+class SearchForm(forms.Form):
+    q = forms.CharField(max_length=100)
+
+# In your view:
+def search_view(request):
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        search_query = form.cleaned_data['q']
+        results = Book.objects.filter(name__icontains=search_query)
+    else:
+        results = Book.objects.none()
+    
+    return render(request, 'search.html', {'form': form, 'results': results})

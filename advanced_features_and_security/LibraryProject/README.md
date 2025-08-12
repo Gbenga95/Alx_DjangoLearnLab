@@ -16,3 +16,11 @@ def create_article(request): ...
 
 @permission_required('yourapp.can_edit', raise_exception=True)
 def edit_article(request, article_id): ...
+
+<!-- templates/book_form.html -->
+<!-- Added {% csrf_token %} to protect against Cross-Site Request Forgery attacks -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>

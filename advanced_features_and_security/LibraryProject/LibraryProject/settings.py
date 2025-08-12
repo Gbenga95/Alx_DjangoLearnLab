@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!&97vknvpn7*x^-zp4rl+yg4y89esy42r!h_8*(+ir^)wsaz-^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookshelf',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -122,3 +125,24 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
+# Browser security headers
+SECURE_BROWSER_XSS_FILTER = True  # ✅ Helps prevent XSS attacks
+X_FRAME_OPTIONS = 'DENY'          # ✅ Prevents clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True # ✅ Prevents MIME-type sniffing
+
+# Cookies security
+CSRF_COOKIE_SECURE = True    # ✅ CSRF cookies sent only via HTTPS
+SESSION_COOKIE_SECURE = True # ✅ Session cookies sent only via HTTPS
+
+# Optional but recommended:
+SECURE_HSTS_SECONDS = 31536000      # Enforce HTTPS for 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Only allow scripts/styles/images from same origin and trusted domains
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "https://cdnjs.cloudflare.com")
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com")
+CSP_IMG_SRC = ("'self'", "data:", "https://example.com")
