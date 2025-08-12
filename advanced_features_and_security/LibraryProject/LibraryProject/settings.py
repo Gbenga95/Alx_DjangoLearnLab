@@ -146,3 +146,14 @@ CSP_SCRIPT_SRC = ("'self'", "https://cdnjs.cloudflare.com")
 CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
 CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com")
 CSP_IMG_SRC = ("'self'", "data:", "https://example.com")
+
+# Redirect all HTTP to HTTPS
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+
+
+# Additional recommended security settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
