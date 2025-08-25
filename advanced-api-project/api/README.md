@@ -1,47 +1,33 @@
-📌 Views Configuration
+# 📘 API Endpoints: Book Management
 
-This project uses Django REST Framework (DRF) generic views to manage posts.
+This project implements CRUD operations for the `Book` model using Django REST Framework's **generic views**.  
+Permissions are applied to ensure public read-only access and authenticated write access.
 
-PostListCreateView
+---
 
-URL: /posts/
+## Endpoints
 
-Methods:
+### 1. List All Books
+- **URL:** `/api/books/`
+- **Method:** `GET`
+- **Access:** Public
+- **Features:**
+  - Search books by title or author name: `?search=potter`
+  - Order results: `?ordering=title` or `?ordering=-publication_year`
 
-GET → Retrieve all posts
+### 2. Retrieve a Single Book
+- **URL:** `/api/books/<pk>/`
+- **Method:** `GET`
+- **Access:** Public
 
-POST → Create a new post
-
-Customization: Uses PostSerializer for validation and serialization.
-
-PostRetrieveUpdateDestroyView
-
-URL: /posts/<id>/
-
-Methods:
-
-GET → Retrieve a single post
-
-PUT/PATCH → Update a post
-
-DELETE → Delete a post
-
-Customization: Uses PostSerializer for validation and serialization.
-
-⚡ Note:
-If you extend these views, you can add custom behavior using hooks such as:
-
-perform_create(self, serializer) → to modify data before saving (e.g., attach request.user to a post).
-
-get_queryset(self) → to filter data dynamically (e.g., only return posts owned by the current user).
-
-Example of Custom Hook in Code
-class PostListCreateView(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-    def perform_create(self, serializer):
-        """
-        Custom hook to save the user who created the post.
-        """
-        serializer.save(author=self.request.user)
+### 3. Create a New Book
+- **URL:** `/api/books/create/`
+- **Method:** `POST`
+- **Access:** Authenticated users only
+- **Body Example:**
+  ```json
+  {
+    "title": "The Hobbit",
+    "publication_year": 1937,
+    "author": 1
+  }
