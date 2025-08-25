@@ -31,3 +31,16 @@ Permissions are applied to ensure public read-only access and authenticated writ
     "publication_year": 1937,
     "author": 1
   }
+
+
+### Filtering, Searching, and Ordering
+
+- **Filter by fields**:
+  `/api/books/?title=The Hobbit&publication_year=2023`
+
+- **Search** (case-insensitive, partial matches):
+  `/api/books/?search=Potter`
+
+- **Ordering**:
+  `/api/books/?ordering=title` → ascending
+  `/api/books/?ordering=-publication_year` → descending
